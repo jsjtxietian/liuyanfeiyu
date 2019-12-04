@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>流言飞语</title>
+	<link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<h1>流言飞语</h1>
+<div>
+	<form action="/message_input/" method="post">
+		{% csrf_token %}
+		<input name="text" type="text" placeholder="请输入"/>
+
+		<button type="submit"></button>
+
+	</form>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+*{
+    text-align: center;
+    vertical-align: bottom;
+}
+h1{
+    color: #000;
+    font-family: 'Dengxian', Courier, monospace ;
+    font-size: 45pt;
+}
+
+div{
+    width: 70%;
+    margin: 100px auto auto;
+}
+
+input{
+    width: 70%;
+    height: 50px;
+    border-radius: 10px;
+    margin: auto auto;
+    padding-left: 10px;
+    border: 1px solid #afafaf;
+    text-align: left;
+    font-size: 20pt;
+}
+
+button{
+    width: 55px;
+    height: 55px;
+    background-color: white;
+    background-image: url("Shadowsocks-Logo.svg.png");
+    background-size: cover;
+    margin: 5px auto auto;
+    color: white;
+    border: none;
+}
