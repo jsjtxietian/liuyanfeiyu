@@ -80,15 +80,15 @@ public class Controller : MonoBehaviour
                         temptext.transform.SetParent(TextParent, false);
                         temptext.name = "tip" + tipid.ToString();
                         path = iTweenPath.GetPath("Path1");
+
+                        Debug.Log(path.Length);
                         temptext.transform.position = path[0];
                         
                         Vector3 directionV = path[1] - path[0];
-                        Debug.Log(directionV);
                         float angleF = Mathf.Atan2(directionV.x,directionV.y) * Mathf.Rad2Deg;
 
                         iTween.RotateTo(temptext.gameObject,
                             iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
-
 
                         iTween.MoveTo(temptext.gameObject,
                             iTween.Hash("oncomplete", "movePath", "path", path, "time", 10, "delay", delay, "easetype", iTween.EaseType.linear,
@@ -105,7 +105,6 @@ public class Controller : MonoBehaviour
 
     void movePath(GameObject self)
     {
-        Debug.Log("fuck");
         Destroy(self);
     }
 
