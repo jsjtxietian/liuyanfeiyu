@@ -21,7 +21,7 @@ public class Controller : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //Screen.SetResolution(1920, 1080, true);
+        Screen.SetResolution(1920, 1080, true);
         //Cursor.visible = false;
     }
 
@@ -74,25 +74,9 @@ public class Controller : MonoBehaviour
                     float delay = -0.3f;
                     foreach (char c in str)
                     {
-                        delay += 0.5f;
-                        temptext = Instantiate(myText) as Text;
-                        temptext.text = c.ToString();
-                        temptext.transform.SetParent(TextParent, false);
-                        temptext.name = "tip" + tipid.ToString();
-                        path = iTweenPath.GetPath("Path1");
+                        delay += 0.3f;
+                        movePath(c, delay);
 
-                        Debug.Log(path.Length);
-                        temptext.transform.position = path[0];
-                        
-                        Vector3 directionV = path[1] - path[0];
-                        float angleF = Mathf.Atan2(directionV.x,directionV.y) * Mathf.Rad2Deg;
-
-                        iTween.RotateTo(temptext.gameObject,
-                            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
-
-                        iTween.MoveTo(temptext.gameObject,
-                            iTween.Hash("oncomplete", "movePath", "path", path, "time", 10, "delay", delay, "easetype", iTween.EaseType.linear,
-                                "movetopath", true, "oncompleteparams", temptext.gameObject, "oncompletetarget", gameObject));
                         tipid++;
                         if (tipid <= 0)
                             tipid = 1;
@@ -103,52 +87,88 @@ public class Controller : MonoBehaviour
         }
     }
 
-    void movePath(GameObject self)
+    
+    /* movePath 系列函数利用iTweenPath来控制字符的运动轨迹和旋转等动作属性，具体函数调用方式请参考iTweenPath官方说明*/
+    void movePath(char c, float delay)
+    {
+        temptext = Instantiate(myText) as Text;
+        temptext.text = c.ToString();
+        temptext.transform.SetParent(TextParent, false);
+        temptext.name = "tip" + tipid.ToString();
+        path = iTweenPath.GetPath("Path1");
+
+        temptext.transform.position = path[0];
+        Vector3 directionV = path[1] - path[0];
+        float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
+
+        iTween.RotateTo(temptext.gameObject,
+            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+
+        iTween.MoveTo(temptext.gameObject,
+            iTween.Hash( "path", path, "time", 10, "delay", delay, "easetype", iTween.EaseType.linear,
+                "oncomplete", "movePath2", "oncompleteparams", temptext.gameObject, "oncompletetarget", gameObject));
+    }
+
+    void movePath2(GameObject obj)
+    {
+        path = iTweenPath.GetPath("Path2");
+
+        obj.transform.position = path[0];
+        Vector3 directionV = path[1] - path[0];
+        float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
+
+        iTween.RotateTo(obj,
+            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+
+        iTween.MoveTo(obj,
+            iTween.Hash( "path", path, "time", 10, "delay", 0, "easetype", iTween.EaseType.linear,
+                 "oncomplete", "movePath3", "oncompleteparams", obj, "oncompletetarget", gameObject));
+    }
+
+    void movePath3(GameObject obj)
+    {
+        path = iTweenPath.GetPath("Path3");
+
+        obj.transform.position = path[0];
+        Vector3 directionV = path[1] - path[0];
+        float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
+
+        iTween.RotateTo(obj,
+            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+
+        iTween.MoveTo(obj,
+            iTween.Hash("path", path, "time", 10, "delay", 0, "easetype", iTween.EaseType.linear,
+                 "oncomplete", "movePath4", "oncompleteparams", obj, "oncompletetarget", gameObject));
+    }
+
+    void movePath4(GameObject obj)
+    {
+        path = iTweenPath.GetPath("Path4");
+
+        obj.transform.position = path[0];
+        Vector3 directionV = path[1] - path[0];
+        float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
+
+        iTween.RotateTo(obj,
+            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+
+        iTween.MoveTo(obj,
+            iTween.Hash("path", path, "time", 10, "delay", 0, "easetype", iTween.EaseType.linear,
+                 "oncomplete", "destoryWord", "oncompleteparams", obj, "oncompletetarget", gameObject));
+    }
+
+    void destoryWord(GameObject self)
     {
         Destroy(self);
     }
 
+
+    //void movePath3(GameObject obj)
+    //{
+    //    path3 = iTweenPath.GetPath("Path4");
+    //    iTween.MoveTo(obj, iTween.Hash("path", path3, "time", 4, "easetype", iTween.EaseType.linear, "oncomplete", "movePath4", "oncompleteparams", obj));
+    //    iTween.RotateTo(obj, iTween.Hash("rotation", new Vector3(0, 0, 90), "delay", 0, "time", 2, "easetype", iTween.EaseType.linear));
+    //}
+
 }
 
-
-///* movePath 系列函数利用iTweenPath来控制字符的运动轨迹和旋转等动作属性，具体函数调用方式请参考iTweenPath官方说明*/
-//void movePath(GameObject obj)
-//{
-//    path1 = iTweenPath.GetPath("New Path 2");
-//    iTween.MoveTo(obj, iTween.Hash("path", path1, "time", 2, "easetype", iTween.EaseType.linear, "oncomplete", "movePath2", "oncompleteparams", obj));
-//    iTween.RotateTo(obj, iTween.Hash("rotation", new Vector3(0, 0, 90), "delay", 0, "time", 0.1));
-//}
-
-//void movePath2(GameObject obj)
-//{
-//    path2 = iTweenPath.GetPath("New Path 3");
-//    iTween.MoveTo(obj, iTween.Hash("path", path2, "time", 4, "easetype", iTween.EaseType.linear, "oncomplete", "movePath3", "oncompleteparams", obj));
-//    iTween.RotateTo(obj, iTween.Hash("rotation", new Vector3(0, 0, 90), "delay", 0, "time", 1));
-
-//}
-
-//void movePath3(GameObject obj)
-//{
-//    path3 = iTweenPath.GetPath("New Path 4");
-//    iTween.MoveTo(obj, iTween.Hash("path", path3, "time", 4, "easetype", iTween.EaseType.linear, "oncomplete", "movePath4", "oncompleteparams", obj));
-//    iTween.RotateTo(obj, iTween.Hash("rotation", new Vector3(0, 0, 90), "delay", 0, "time", 2, "easetype", iTween.EaseType.linear));
-//}
-
-//void movePath4(GameObject obj)
-//{
-//    path4 = iTweenPath.GetPath("New Path 5");
-//    iTween.MoveTo(obj, iTween.Hash("path", path4, "time", 7, "easetype", iTween.EaseType.linear, "oncomplete", "movePath6", "oncompleteparams", obj));
-//    iTween.RotateTo(obj, iTween.Hash("rotation", new Vector3(0, 0, -90), "delay", 0, "time", 3));
-//}
-
-//void movePath5(GameObject obj)
-//{
-//    Destroy(obj);
-//}
-
-//void movePath6(GameObject obj)
-//{
-//    path5 = iTweenPath.GetPath("New Path 6");
-//    iTween.MoveTo(obj, iTween.Hash("path", path5, "time", 5, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "movePath5", "oncompleteparams", obj));
-//    iTween.RotateTo(obj, iTween.Hash("rotation", new Vector3(0, 0, 0), "delay", 0, "time", 3));
-//}

@@ -448,6 +448,9 @@ GameObject:
   - component: {fileID: 1798305456}
   - component: {fileID: 1798305460}
   - component: {fileID: 1798305461}
+  - component: {fileID: 1798305463}
+  - component: {fileID: 1798305462}
+  - component: {fileID: 1798305464}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -566,12 +569,74 @@ MonoBehaviour:
   pathName: Path1
   pathColor: {r: 0, g: 1, b: 1, a: 1}
   nodes:
-  - {x: 126.110886, y: 115.70007, z: 0}
-  - {x: 264.95483, y: 201.31934, z: 0}
-  - {x: 147.40454, y: 276.67758, z: 0}
-  nodeCount: 3
+  - {x: 700, y: 700, z: 0}
+  - {x: 150, y: 700, z: 0}
+  nodeCount: 2
   initialized: 1
   initialName: New Path 1
+  pathVisible: 1
+--- !u!114 &1798305462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798305455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: Path3
+  pathColor: {r: 0.080822945, g: 1, b: 0, a: 1}
+  nodes:
+  - {x: 535, y: 400, z: 0}
+  - {x: 1230, y: 400, z: 0}
+  nodeCount: 2
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1
+--- !u!114 &1798305463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798305455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: Path2
+  pathColor: {r: 1, g: 0.049433902, b: 0, a: 1}
+  nodes:
+  - {x: 1045, y: 550, z: 0}
+  - {x: 535, y: 550, z: 0}
+  nodeCount: 2
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1
+--- !u!114 &1798305464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798305455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: Path4
+  pathColor: {r: 0.835279, g: 0, b: 1, a: 1}
+  nodes:
+  - {x: 1230, y: 400, z: 0}
+  - {x: 1230, y: 642.5, z: 0}
+  nodeCount: 2
+  initialized: 1
+  initialName: New Path 2
   pathVisible: 1
 --- !u!1 &1815573084
 GameObject:
