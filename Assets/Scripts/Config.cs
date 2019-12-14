@@ -11,7 +11,7 @@ public class Config : MonoBehaviour
         //Configs config = new Configs();
         //configPath(ref config);
         //configMask(ref config);
-
+        //config.vacantCount = 100;
         //string json = JsonMapper.ToJson(config);
         //using (StreamWriter sw = new StreamWriter(Application.dataPath + "/StreamingAssets/" + "config.json"))
         //{
@@ -123,6 +123,7 @@ public struct Coor
 public struct Configs
 {
     public double wordDelay { get; set; }
+    public int vacantCount { get; set; }
     public List<SinglePath> Paths { get; set; }
     public List<SingleMask> Masks { get; set; }
 }

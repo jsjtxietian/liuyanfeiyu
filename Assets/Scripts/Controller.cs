@@ -11,6 +11,7 @@ public class Controller : MonoBehaviour
 
     private string configPath ;
     private string inputPath ;
+    private int vacant;
 
     public Transform TextParent;
     public GameObject Mask;
@@ -18,7 +19,7 @@ public class Controller : MonoBehaviour
     private Text temptext;
     long i = 1;    //循环计数变量 注意，由于长时间开机，要防止数据溢出
     long id = 1;    //每个字的编号
-    long vacantCount = 24;    //空闲时间计数，空闲达到一定时间显示提示文字
+    long vacantCount = 0;    //空闲时间计数，空闲达到一定时间显示提示文字
     long tipid = 1;    //提示文字的编号
 
     
@@ -34,6 +35,9 @@ public class Controller : MonoBehaviour
         string rawConfig = sr.ReadToEnd();
         config = JsonMapper.ToObject<Configs>(rawConfig);
         sr.Close();
+
+        vacant = config.vacantCount;
+
 
         path = new Vector3[2];
         AddMask();
@@ -68,14 +72,14 @@ public class Controller : MonoBehaviour
                     movePathwithConfig(c, delay);
 
                     id++;
-                    if (tipid <= 0)
-                        tipid = 1;
+                    if (id <= 0)
+                        id = 1;
                 }
             }
             else
             {
                 vacantCount++;    //没发现message.txt, 空闲
-                if (vacantCount > 24)    //可以自己设置空闲多久后开始出现提示文字
+                if (vacantCount > vacant)    //可以自己设置空闲多久后开始出现提示文字
                 {
                     vacantCount = 0;
                     string str = "请在平板上输入文字";
@@ -83,7 +87,6 @@ public class Controller : MonoBehaviour
                     foreach (char c in str)
                     {
                         delay += (float)config.wordDelay;
-                        //movePath(c, delay);
                         movePathwithConfig(c, delay);
 
                         tipid++;

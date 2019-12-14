@@ -1,5 +1,6 @@
 {
     "wordDelay": 0.3,
+    "vacantCount": 24,
     "Paths": [
         {
             "delay": 0.0,
