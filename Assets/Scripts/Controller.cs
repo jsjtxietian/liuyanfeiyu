@@ -9,8 +9,11 @@ public class Controller : MonoBehaviour
     private Vector3[] path ;
     private Configs config;
 
-    private string filePath = @"C:\Users\jsjtx\Desktop\message.txt";
+    private string configPath ;
+    private string inputPath ;
+
     public Transform TextParent;
+    public GameObject Mask;
     public Text myText;
     private Text temptext;
     long i = 1;    //循环计数变量 注意，由于长时间开机，要防止数据溢出
@@ -23,13 +26,18 @@ public class Controller : MonoBehaviour
     void Start()
     {
         Screen.SetResolution(1920, 1080, true);
-        StreamReader sr = new StreamReader(Application.dataPath + "/StreamingAssets/" + "config.json");
+
+        configPath = Application.dataPath + "/StreamingAssets/config.json";
+        inputPath = Application.dataPath + "/StreamingAssets/input.txt";
+
+        StreamReader sr = new StreamReader(configPath);
         string rawConfig = sr.ReadToEnd();
         config = JsonMapper.ToObject<Configs>(rawConfig);
         sr.Close();
 
         path = new Vector3[2];
-        //Cursor.visible = false;
+        AddMask();
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -39,7 +47,7 @@ public class Controller : MonoBehaviour
         if (i <= 0) i = 1;    //防止溢出
         if (i % 10 == 0)
         {
-            if (File.Exists(filePath))    //此处路径需要根据实际做对应修改
+            if (File.Exists(inputPath))    //此处路径需要根据实际做对应修改
             {
                 vacantCount = 0;    //重置空闲时间计数
                 for (int ii = 1; ii <= tipid; ii++)    //如果当前有提示文字，清空它们
@@ -50,25 +58,18 @@ public class Controller : MonoBehaviour
                     }
                 }
                 tipid = 1;
-                string str = File.ReadAllText(filePath, Encoding.UTF8);
-                File.Delete(filePath);
+                string str = File.ReadAllText(inputPath, Encoding.UTF8);
+                File.Delete(inputPath);
 
-                float delay = -0.3f;    //控制一段话之内每个字的流出延迟，防止一次全显示出来
+                float delay = -(float)config.wordDelay;
                 foreach (char c in str)
                 {
-                    delay += 0.3f;
-                    temptext = Instantiate(myText) as Text;
-                    temptext.text = c.ToString();
-                    temptext.GetComponent<Transform>().SetParent(TextParent, false);
-                    temptext.GetComponent<Transform>().position = new Vector3(800.0f, 435.0f, 0);    //初始位置要根据实际定位
-                    temptext.name = id.ToString();
-                    path = iTweenPath.GetPath("Path1");
-                    iTween.RotateTo(GameObject.Find(id.ToString()), 
-                        iTween.Hash("rotation", new Vector3(0, 0, 85), "delay", 2.5 + delay, "time", 0.1));
-                    iTween.MoveTo(GameObject.Find(id.ToString()), 
-                        iTween.Hash("path", path, "time", 5, "delay", delay, "easetype", iTween.EaseType.easeOutQuad, "movetopath", true));
+                    delay += (float)config.wordDelay;
+                    movePathwithConfig(c, delay);
+
                     id++;
-                    if (id <= 0) id = 1;    //防止数据溢出
+                    if (tipid <= 0)
+                        tipid = 1;
                 }
             }
             else
@@ -110,8 +111,10 @@ public class Controller : MonoBehaviour
         Vector3 directionV = path[1] - path[0];
         float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
 
-        iTween.RotateTo(temptext.gameObject,
-            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+
+        temptext.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angleF));
+        //iTween.RotateTo(temptext.gameObject,
+        //    iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
 
         iTween.MoveTo(temptext.gameObject,
             iTween.Hash("path", path.Clone(), "time", config.Paths[0].time, "delay", delay, "easetype", iTween.EaseType.linear,
@@ -130,8 +133,10 @@ public class Controller : MonoBehaviour
         Vector3 directionV = path[1] - path[0];
         float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
 
-        iTween.RotateTo(obj,
-            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+        obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angleF));
+
+        //iTween.RotateTo(obj,
+        //    iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
 
         iTween.MoveTo(obj,
             iTween.Hash( "path", path.Clone(), "time", config.Paths[1].time, "delay", config.Paths[1].delay, "easetype", iTween.EaseType.linear,
@@ -148,8 +153,9 @@ public class Controller : MonoBehaviour
         Vector3 directionV = path[1] - path[0];
         float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
 
-        iTween.RotateTo(obj,
-            iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
+        obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angleF));
+        //iTween.RotateTo(obj,
+        //    iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
 
         iTween.MoveTo(obj,
             iTween.Hash("path", path.Clone(), "time", config.Paths[2].time, "delay", config.Paths[2].delay, "easetype", iTween.EaseType.linear,
@@ -177,6 +183,18 @@ public class Controller : MonoBehaviour
     void destoryWord(GameObject self)
     {
         Destroy(self);
+    }
+
+    void AddMask()
+    {
+        for(int i  = 0; i< config.Masks.Count; i++)
+        {
+            SingleMask m = config.Masks[i];
+            GameObject mask = Instantiate(Mask);
+            mask.transform.SetParent(GameObject.Find("Canvas").transform,false);
+            mask.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)m.coor.x, (float)m.coor.y);
+            mask.GetComponent<RectTransform>().sizeDelta = new Vector2((float)m.width, (float)m.height);
+        }
     }
 
 }
