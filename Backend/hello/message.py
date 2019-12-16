@@ -39,7 +39,7 @@ def input_msg(request):
         msg = request.POST["text"]
 
         print("received: " + msg)
-        with codecs.open("../Assets/StreamingAssets/input.txt", 'w', 'utf-8') as file:
+        with codecs.open("../Build/Liuyanfeiyu_Data/StreamingAssets/input.txt", 'w', 'utf-8') as file:
             file.write(msg)
             # file.write(str(Message.flag))
             # Message.flag = 1 - Message.flag

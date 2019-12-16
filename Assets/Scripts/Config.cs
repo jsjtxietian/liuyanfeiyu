@@ -12,6 +12,7 @@ public class Config : MonoBehaviour
         //configPath(ref config);
         //configMask(ref config);
         //config.vacantCount = 100;
+        //config.fontSize = 20;
         //string json = JsonMapper.ToJson(config);
         //using (StreamWriter sw = new StreamWriter(Application.dataPath + "/StreamingAssets/" + "config.json"))
         //{
@@ -123,6 +124,7 @@ public struct Coor
 public struct Configs
 {
     public double wordDelay { get; set; }
+    public int fontSize { get; set; }
     public int vacantCount { get; set; }
     public List<SinglePath> Paths { get; set; }
     public List<SingleMask> Masks { get; set; }

@@ -38,9 +38,9 @@ public class Controller : MonoBehaviour
 
         vacant = config.vacantCount;
 
-
         path = new Vector3[2];
         AddMask();
+
         Cursor.visible = false;
     }
 
@@ -106,6 +106,8 @@ public class Controller : MonoBehaviour
         temptext.text = c.ToString();
         temptext.transform.SetParent(TextParent, false);
         temptext.name = "tip" + tipid.ToString();
+        temptext.fontSize = config.fontSize;
+
 
         path[0] = new Vector3((float)(config.Paths[0].begin.x), (float)(config.Paths[0].begin.y), 0);
         path[1] = new Vector3((float)config.Paths[0].end.x, (float)config.Paths[0].end.y, 0);
@@ -122,6 +124,7 @@ public class Controller : MonoBehaviour
         iTween.MoveTo(temptext.gameObject,
             iTween.Hash("path", path.Clone(), "time", config.Paths[0].time, "delay", delay, "easetype", iTween.EaseType.linear,
                 "oncomplete", "movePath2", "oncompleteparams", temptext.gameObject, "oncompletetarget", gameObject));
+
     }
 
 
@@ -137,13 +140,14 @@ public class Controller : MonoBehaviour
         float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
 
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angleF));
-
+        obj.GetComponent<Text>().color = new Color(1, 1, 1, 0);
         //iTween.RotateTo(obj,
         //    iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
 
         iTween.MoveTo(obj,
             iTween.Hash( "path", path.Clone(), "time", config.Paths[1].time, "delay", config.Paths[1].delay, "easetype", iTween.EaseType.linear,
-                 "oncomplete", "movePath3", "oncompleteparams", obj, "oncompletetarget", gameObject));
+                 "oncomplete", "movePath3", "oncompleteparams", obj, "oncompletetarget", gameObject,
+                 "onstart", "RepairAlpha", "onstartparams",obj, "onstarttarget", gameObject));
     }
 
     void movePath3(GameObject obj)
@@ -157,12 +161,15 @@ public class Controller : MonoBehaviour
         float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
 
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angleF));
+        obj.GetComponent<Text>().color = new Color(1, 1, 1, 0);
+
         //iTween.RotateTo(obj,
         //    iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
 
         iTween.MoveTo(obj,
             iTween.Hash("path", path.Clone(), "time", config.Paths[2].time, "delay", config.Paths[2].delay, "easetype", iTween.EaseType.linear,
-                 "oncomplete", "movePath4", "oncompleteparams", obj, "oncompletetarget", gameObject));
+                 "oncomplete", "movePath4", "oncompleteparams", obj, "oncompletetarget", gameObject,
+        "onstart", "RepairAlpha", "onstartparams",obj, "onstarttarget", gameObject));
     }
 
     void movePath4(GameObject obj)
@@ -181,6 +188,11 @@ public class Controller : MonoBehaviour
         iTween.MoveTo(obj,
             iTween.Hash("path", path.Clone(), "time", config.Paths[3].time, "delay", config.Paths[3].delay, "easetype", iTween.EaseType.linear,
                  "oncomplete", "destoryWord", "oncompleteparams", obj, "oncompletetarget", gameObject));
+    }
+
+    void RepairAlpha(GameObject obj)
+    {
+        obj.GetComponent<Text>().color = new Color(1, 1, 1, 1);
     }
 
     void destoryWord(GameObject self)
