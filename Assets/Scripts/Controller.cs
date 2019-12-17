@@ -116,14 +116,15 @@ public class Controller : MonoBehaviour
         Vector3 directionV = path[1] - path[0];
         float angleF = Mathf.Atan2(directionV.x, directionV.y) * Mathf.Rad2Deg;
 
-
+        temptext.color = new Color(1, 1, 1, 0);
         temptext.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angleF));
         //iTween.RotateTo(temptext.gameObject,
         //    iTween.Hash("rotation", new Vector3(0, 0, -angleF), "time", 1));
 
         iTween.MoveTo(temptext.gameObject,
             iTween.Hash("path", path.Clone(), "time", config.Paths[0].time, "delay", delay, "easetype", iTween.EaseType.linear,
-                "oncomplete", "movePath2", "oncompleteparams", temptext.gameObject, "oncompletetarget", gameObject));
+                "oncomplete", "movePath2", "oncompleteparams", temptext.gameObject, "oncompletetarget", gameObject,
+                "onstart", "RepairAlpha", "onstartparams", temptext.gameObject, "onstarttarget", gameObject));
 
     }
 
