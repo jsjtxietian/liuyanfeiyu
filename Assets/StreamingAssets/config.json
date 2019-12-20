@@ -1,7 +1,7 @@
 {
     "wordDelay": 0.6,
     "vacantCount": 100,
-    "fontSize":28,
+    "fontSize":34,
     "Paths": [
         {
             "delay": 0.0,
