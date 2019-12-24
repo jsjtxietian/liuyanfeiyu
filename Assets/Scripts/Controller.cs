@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.Text;
 using LitJson;
+using System.Collections;
 
 public class Controller : MonoBehaviour
 {
@@ -210,8 +211,16 @@ public class Controller : MonoBehaviour
             mask.transform.SetParent(GameObject.Find("Canvas").transform,false);
             mask.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)m.coor.x, (float)m.coor.y);
             mask.GetComponent<RectTransform>().sizeDelta = new Vector2((float)m.width, (float)m.height);
+
+            mask.GetComponent<Image>().color = new Color(1, 0, 0);
+            StartCoroutine(HideMask(mask));
         }
     }
 
+    IEnumerator HideMask(GameObject mask)
+    {
+        yield return new WaitForSeconds(10);
+        mask.GetComponent<Image>().color = new Color(0, 0, 0);
+    }
 }
 

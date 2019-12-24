@@ -1,5 +1,9 @@
 #README
 
+#### todo
+
+方块可以变色，不纯黑
+
 ####打开后端
 
 1. 打开Backend里面的config cmd.cmd
