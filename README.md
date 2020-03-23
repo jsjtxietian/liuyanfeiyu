@@ -1,16 +1,16 @@
-#README
+# README
 
 #### todo
 
 方块可以变色，不纯黑
 
-####打开后端
+#### 打开后端
 
 1. 打开Backend里面的config cmd.cmd
 2. 参照水管的方法，关闭防火墙，获取ip地址
 3. 然后ip+8000/index可访问地址，例如192.168.1.101:8000/index
 
-####打开程序Liuyanfeiyu.exe
+#### 打开程序Liuyanfeiyu.exe
 
 见config.json可进行参数配置：
 
